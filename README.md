@@ -13,6 +13,7 @@
   <img alt="Ubuntu 24.04" src="https://img.shields.io/badge/Ubuntu-24.04-e95420?style=flat-square">
   <img alt="Custom nodes 10" src="https://img.shields.io/badge/custom%20nodes-10%20pinned-a78bfa?style=flat-square">
   <img alt="Network egress none" src="https://img.shields.io/badge/network%20egress-none-fbbf24?style=flat-square">
+  <img alt="License MIT" src="https://img.shields.io/badge/license-MIT-64748b?style=flat-square">
 </p>
 
 ---
@@ -364,7 +365,23 @@ just pointing `IMAGE_TAG` back and running `docker compose up -d`.
 
 ---
 
+## License
+
+The build tooling in this repository — the Dockerfile, compose files, scripts
+and documentation — is [MIT licensed](LICENSE).
+
+That covers this repository only. It contains no upstream source: ComfyUI and
+every custom node are fetched at build time and keep their own licenses.
+
+> [!NOTE]
+> **ComfyUI itself is GPL-3.0**, so the *image you build* contains GPL-3.0
+> software even though this repository does not. Moving that image between your
+> own machines is not distribution and raises no obligation. Passing it to a
+> third party is, and GPL-3.0 terms then apply to the ComfyUI portion —
+> including the offer of corresponding source. `custom_nodes.txt` pins an exact
+> commit for every node, which is what makes that source identifiable.
+
 ## Credits
 
-Built on [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) and the work
-of every custom-node author listed in `custom_nodes.txt`.
+Built on [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) (GPL-3.0) and
+the work of every custom-node author listed in `custom_nodes.txt`.
