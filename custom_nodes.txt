@@ -1,0 +1,61 @@
+# =============================================================================
+#  Custom nodes baked into the air-gapped image
+# =============================================================================
+#  Format:  <git-url><whitespace><pinned-commit-sha>
+#  Blank lines and #-comments are ignored.
+#
+#  EVERY node MUST carry a pinned SHA. install_custom_nodes.sh treats a missing
+#  pin as a fatal build error, because an unpinned HEAD means two builds of the
+#  "same" image can contain different code with different runtime download
+#  behaviour — which is precisely the class of surprise an air-gapped
+#  deployment cannot absorb.
+#
+#  To add a node:      append the URL, then run ./scripts/pin_custom_nodes.sh
+#  To update pins:     ./scripts/pin_custom_nodes.sh --update
+#  After ANY change:   rebuild + re-run ./scripts/verify_offline.sh
+#
+#  SHAs below resolved 2026-09-26.
+# =============================================================================
+
+# Node manager. Forced into offline network_mode by config/manager-config.ini;
+# its install/update buttons will not work on the air-gapped host (by design).
+https://github.com/Comfy-Org/ComfyUI-Manager.git                9c29dc68a488fd56e15f152807579009d627bfef
+
+# Video/image sequence loading and saving. Needs the ffmpeg apt package.
+https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git     4d907bee61e92c2e65af3bd6383a4e4d356126d1
+
+# Detection/segmentation/detailer pipeline.
+# NOTE: its install.py downloads sam_vit_b_01ec64.pth at BUILD time into
+# $COMFYUI_MODEL_PATH/sams (redirected to the defaults tree by the Dockerfile).
+https://github.com/ltdrdata/ComfyUI-Impact-Pack.git             429d0159ad429e64d2b3916e6e7be9c22d025c3c
+
+# ControlNet preprocessors.
+# NOTE: downloads annotator checkpoints LAZILY on first node execution ->
+# handled by scripts/prewarm_models.sh. Largest contributor to image size.
+https://github.com/Fannovel16/comfyui_controlnet_aux.git        59b1fc411ede8623b2997855b8018f0b3b6cf49f
+
+# Assorted image/mask/text utility nodes.
+https://github.com/cubiq/ComfyUI_essentials.git                 9d9f4bedfc9f0321c19faf71855e228c93bd0dc9
+
+# Broad utility pack (masking, batch, scheduling helpers).
+https://github.com/kijai/ComfyUI-KJNodes.git                    d3cfe21625e5170126ce06fbfcfe1d88108688c3
+
+# Workflow quality-of-life: reroutes, bookmarks, node muting, progress.
+https://github.com/rgthree/rgthree-comfy.git                    449c58fcdd612f7733e54c51f6758ead63fa180b
+
+# Large general-purpose node suite.
+https://github.com/WASasquatch/was-node-suite-comfyui.git       8f80db30a0acc7cfbd5c5a87fe40463c47a393e9
+
+# Detection/segmentation provider split out of Impact Pack (UltralyticsDetectorProvider).
+# NOTE: its install.py downloads 3 YOLO models at BUILD time from
+# huggingface.co/Bingsu/adetailer (face_yolov8m, hand_yolov8s, person_yolov8m-seg)
+# into $COMFYUI_MODEL_PATH/ultralytics/{bbox,segm}. It honours COMFYUI_MODEL_PATH,
+# so the Dockerfile's redirect already keeps these safe from the models bind mount.
+https://github.com/ltdrdata/ComfyUI-Impact-Subpack.git          50c7b71a6a224734cc9b21963c6d1926816a97f1
+
+# Frame interpolation (RIFE, FILM, GMFSS, ...).
+# NOTE: its install.py installs python packages ONLY (including a large CUDA-
+# specific cupy build). The VFI checkpoints are fetched LAZILY on first node
+# execution from GitHub release URLs into <node>/ckpts/<model_type>/ -> they are
+# pulled at build time by scripts/prewarm_models.sh (see VFI_PREWARM).
+https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git   26545cc2dd95bc3d27f056016300673bdeee78f5

@@ -1,0 +1,56 @@
+# =============================================================================
+#  AIR-GAPPED MACHINE — runs the pre-built image.
+# =============================================================================
+#  There is intentionally NO `build:` key here. The image must arrive via
+#  `docker load`; if `docker compose up` cannot find it locally you want a
+#  clean "image not found" error, not a build attempt that hangs on DNS.
+#
+#  Usage: docker compose up -d
+# =============================================================================
+services:
+  comfyui:
+    image: "${IMAGE_NAME:-comfyui-airgap}:${IMAGE_TAG:-v0.37.0}"
+    container_name: comfyui
+    restart: unless-stopped
+
+    ports:
+      - "${COMFY_PORT:-8188}:8188"
+
+    volumes:
+      # Models live outside the image and are transferred separately, so the
+      # image stays ~10GB instead of ~100GB and new checkpoints do not require
+      # a rebuild. entrypoint.sh seeds node-supplied models into this mount.
+      - ./models:/app/ComfyUI/models
+      - ./input:/app/ComfyUI/input
+      - ./output:/app/ComfyUI/output
+      # Workflows, settings and ComfyUI-Manager's offline config.
+      - ./user:/app/ComfyUI/user
+
+    environment:
+      # --disable-api-nodes also stops the browser frontend from making
+      # outbound calls. Do not remove it on an air-gapped host.
+      COMFY_ARGS: "--listen 0.0.0.0 --port 8188 --disable-api-nodes"
+      COMFY_REQUIRE_GPU: "${COMFY_REQUIRE_GPU:-1}"
+
+    # Must match ownership of the bind-mounted directories on this host.
+    user: "${PUID:-1000}:${PGID:-1000}"
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    # ComfyUI allocates large pinned buffers; the 64MB default /dev/shm causes
+    # opaque worker crashes on bigger models.
+    shm_size: "8gb"
+
+    stop_grace_period: 30s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 240" width="960" height="240"
+     role="img" aria-label="ComfyUI Air-Gapped - build once online, run forever offline">
+  <title>ComfyUI Air-Gapped</title>
+  <defs>
+    <linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#162034"/>
+      <stop offset=".55" stop-color="#0d1524"/>
+      <stop offset="1" stop-color="#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="bwire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="bnode" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#26374e"/>
+      <stop offset="1" stop-color="#1a2536"/>
+    </linearGradient>
+    <filter id="bglow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="960" height="240" rx="20" fill="url(#bbg)"/>
+
+  <!-- mark -->
+  <g transform="translate(48 36) scale(0.65)">
+    <rect x="24" y="24" width="208" height="208" rx="44" fill="none"
+          stroke="#38bdf8" stroke-opacity=".42" stroke-width="4.5"
+          stroke-linecap="round" stroke-dasharray="10 12"/>
+    <g fill="none" stroke="url(#bwire)" stroke-width="7" stroke-linecap="round">
+      <path d="M108 94 C130 94 128 128 148 128"/>
+      <path d="M108 162 C130 162 128 128 148 128"/>
+    </g>
+    <g stroke="#3d5573" stroke-width="3">
+      <g>
+        <rect x="50" y="74" width="58" height="40" rx="9" fill="url(#bnode)"/>
+        <path d="M50 83a9 9 0 0 1 9-9h40a9 9 0 0 1 9 9v5H50z" fill="#34d399" stroke="none"/>
+      </g>
+      <g>
+        <rect x="50" y="142" width="58" height="40" rx="9" fill="url(#bnode)"/>
+        <path d="M50 151a9 9 0 0 1 9-9h40a9 9 0 0 1 9 9v5H50z" fill="#22d3ee" stroke="none"/>
+      </g>
+      <g>
+        <rect x="148" y="104" width="62" height="48" rx="9" fill="url(#bnode)"/>
+        <path d="M148 113a9 9 0 0 1 9-9h44a9 9 0 0 1 9 9v5h-62z" fill="#38bdf8" stroke="none"/>
+      </g>
+    </g>
+    <g fill="#5eead4" filter="url(#bglow)">
+      <circle cx="108" cy="94" r="5.5"/><circle cx="108" cy="162" r="5.5"/><circle cx="148" cy="128" r="5.5"/>
+    </g>
+  </g>
+
+  <g font-family="ui-sans-serif,system-ui,-apple-system,'Segoe UI',Inter,Helvetica,Arial,sans-serif">
+    <text x="248" y="106" font-size="46" font-weight="700" fill="#e8eef7" letter-spacing="-0.6">
+      ComfyUI <tspan fill="#34d399">Air-Gapped</tspan>
+    </text>
+    <text x="250" y="142" font-size="20" font-weight="500" fill="#8fa5be">
+      Build once online. Run forever offline.
+    </text>
+
+    <g font-size="14" font-weight="600">
+      <g>
+        <rect x="250" y="164" width="132" height="30" rx="15" fill="#1e3a2f" stroke="#34d399" stroke-opacity=".45"/>
+        <text x="316" y="184" fill="#6ee7b7" text-anchor="middle">ComfyUI v0.37.0</text>
+      </g>
+      <g>
+        <rect x="392" y="164" width="112" height="30" rx="15" fill="#15304a" stroke="#38bdf8" stroke-opacity=".45"/>
+        <text x="448" y="184" fill="#7dd3fc" text-anchor="middle">CUDA 12.8</text>
+      </g>
+      <g>
+        <rect x="514" y="164" width="150" height="30" rx="15" fill="#2a2440" stroke="#a78bfa" stroke-opacity=".45"/>
+        <text x="589" y="184" fill="#c4b5fd" text-anchor="middle">10 custom nodes</text>
+      </g>
+      <g>
+        <rect x="674" y="164" width="136" height="30" rx="15" fill="#3a2a18" stroke="#fbbf24" stroke-opacity=".45"/>
+        <text x="742" y="184" fill="#fcd34d" text-anchor="middle">zero egress</text>
+      </g>
+    </g>
+  </g>
+</svg>

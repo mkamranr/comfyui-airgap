@@ -1,0 +1,27 @@
+# Keep the build context tiny — these are runtime/bind-mount data, never inputs
+# to the build. Copying a populated ./models into the context would add tens of
+# GB to every build.
+models/
+input/
+output/
+user/
+dist/
+.git/
+.env
+build.log
+*.tar
+*.tar.gz
+*.tar.zst
+README.md
+docker-compose.yml
+
+# custom_nodes_local IS part of the build context (that is the point), but its
+# git metadata and bytecode are dead weight in the upload and the image.
+**/__pycache__
+**/*.pyc
+custom_nodes_local/**/.git
+custom_nodes_local/**/.github
+custom_nodes_local/README.md
+
+# Documentation is not a build input.
+docs/

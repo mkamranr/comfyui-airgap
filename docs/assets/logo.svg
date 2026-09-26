@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"
+     role="img" aria-label="ComfyUI Air-Gapped: a complete node graph sealed inside an air-gap boundary">
+  <title>ComfyUI Air-Gapped</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#162034"/>
+      <stop offset="1" stop-color="#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#26374e"/>
+      <stop offset="1" stop-color="#1a2536"/>
+    </linearGradient>
+    <filter id="glow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="58" fill="url(#bg)"/>
+
+  <!-- The air gap: a sealed boundary. Nothing crosses it - and nothing needs to. -->
+  <rect x="24" y="24" width="208" height="208" rx="44" fill="none"
+        stroke="#38bdf8" stroke-opacity=".42" stroke-width="3.5"
+        stroke-linecap="round" stroke-dasharray="10 12"/>
+
+  <!-- Inside: a COMPLETE graph. Every wire connected, nothing missing. -->
+  <g fill="none" stroke="url(#wire)" stroke-width="5.5" stroke-linecap="round">
+    <path d="M108 94 C130 94 128 128 148 128"/>
+    <path d="M108 162 C130 162 128 128 148 128"/>
+  </g>
+
+  <g stroke="#3d5573" stroke-width="2.5">
+    <g>
+      <rect x="50" y="74" width="58" height="40" rx="9" fill="url(#node)"/>
+      <path d="M50 83a9 9 0 0 1 9-9h40a9 9 0 0 1 9 9v5H50z" fill="#34d399" stroke="none"/>
+    </g>
+    <g>
+      <rect x="50" y="142" width="58" height="40" rx="9" fill="url(#node)"/>
+      <path d="M50 151a9 9 0 0 1 9-9h40a9 9 0 0 1 9 9v5H50z" fill="#22d3ee" stroke="none"/>
+    </g>
+    <g>
+      <rect x="148" y="104" width="62" height="48" rx="9" fill="url(#node)"/>
+      <path d="M148 113a9 9 0 0 1 9-9h44a9 9 0 0 1 9 9v5h-62z" fill="#38bdf8" stroke="none"/>
+    </g>
+  </g>
+
+  <!-- ports -->
+  <g fill="#5eead4" filter="url(#glow)">
+    <circle cx="108" cy="94" r="4.6"/>
+    <circle cx="108" cy="162" r="4.6"/>
+    <circle cx="148" cy="128" r="4.6"/>
+  </g>
+
+  <!-- node content hints -->
+  <g fill="#93a8c0" opacity=".5">
+    <rect x="58" y="95" width="32" height="4" rx="2"/>
+    <rect x="58" y="104" width="20" height="4" rx="2"/>
+    <rect x="58" y="163" width="32" height="4" rx="2"/>
+    <rect x="58" y="172" width="20" height="4" rx="2"/>
+    <rect x="157" y="126" width="38" height="4" rx="2"/>
+    <rect x="157" y="136" width="24" height="4" rx="2"/>
+  </g>
+</svg>

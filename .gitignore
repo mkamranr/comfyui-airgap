@@ -1,0 +1,22 @@
+.env
+build.log
+dist/
+*.tar
+*.tar.gz
+*.tar.zst
+comfyui.sha
+
+# Bind-mount payloads — transferred out of band, never committed.
+models/*
+!models/.gitkeep
+input/*
+!input/.gitkeep
+output/*
+!output/.gitkeep
+user/*
+!user/.gitkeep
+
+# Your own node folders — content is machine-local, keep the dir and its README.
+custom_nodes_local/*
+!custom_nodes_local/.gitkeep
+!custom_nodes_local/README.md

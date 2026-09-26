@@ -1,0 +1,44 @@
+# =============================================================================
+#  INTERNET-CONNECTED MACHINE ONLY — builds the image.
+# =============================================================================
+#  This file is never used on the air-gapped host. Keeping the build config in
+#  a separate file from the run config (docker-compose.yml) is deliberate:
+#  the run-side file has no `build:` key at all, so `docker compose up` on the
+#  target cannot silently fall back to building and reaching for the network.
+#
+#  Usage: docker compose -f docker-compose.build.yml build --progress=plain
+# =============================================================================
+services:
+  comfyui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Pin the ComfyUI release. Bumping this = rebuild + re-verify + re-transfer.
+        COMFYUI_REF: "${COMFYUI_REF:-v0.37.0}"
+
+        # CUDA base image and matching PyTorch wheel index. These two MUST agree,
+        # and the air-gapped host's NVIDIA driver must be new enough for them.
+        # Check `nvidia-smi` on the TARGET before building. See README.
+        CUDA_IMAGE: "${CUDA_IMAGE:-nvidia/cuda:12.8.1-cudnn-runtime-ubuntu24.04}"
+        TORCH_INDEX: "${TORCH_INDEX:-https://download.pytorch.org/whl/cu128}"
+
+        # Must match the UID/GID owning ./models, ./output etc. on the TARGET,
+        # not on this build machine.
+        PUID: "${PUID:-1000}"
+        PGID: "${PGID:-1000}"
+
+        # Several GB of controlnet_aux annotator checkpoints. Set to 0 only if
+        # you will never use ControlNet preprocessor nodes.
+        PREWARM_CONTROLNET_AUX: "${PREWARM_CONTROLNET_AUX:-1}"
+
+        # ComfyUI-Frame-Interpolation checkpoints to bake in, as
+        # "<model_type>:<ckpt_name>" pairs. A checkpoint not listed here cannot
+        # be downloaded later on the air-gapped host.
+        VFI_PREWARM: "${VFI_PREWARM:-rife:rife47.pth rife:rife49.pth film:film_net_fp32.pt}"
+
+        # 1 = a node in ./custom_nodes_local that fails to install aborts the
+        # build. 0 = report and continue.
+        LOCAL_NODES_STRICT: "${LOCAL_NODES_STRICT:-1}"
+
+    image: "${IMAGE_NAME:-comfyui-airgap}:${IMAGE_TAG:-v0.37.0}"
